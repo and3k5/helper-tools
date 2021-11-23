@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>sp_executesql</title>
+    <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+</head>
+
+<body translate="no">
+    <div id="app"></div>
+
+    <script>
+        // parse sp_executesql and output actual query
+        // https://docs.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/sp-executesql-transact-sql
+        /*
+
+            sp_executesql [ @stmt = ] statement  
+            [   
+            { , [ @params = ] N'@parameter_name data_type [ OUT | OUTPUT ][ ,...n ]' }   
+                { , [ @param1 = ] 'value1' [ ,...n ] }  
+            ]  
+
+        */
+        const regex = /^\s*(exec )?sp_executesql (N)?'(?<statement>[^]*)',(N)?'(?<declarations>.*)',(?<setters>.*)$/i;
+        var component = {
+            computed: {
+                outputValue() {
+                    var matches = regex.exec(this.inputValue);
+                    console.log(matches);
+                    if (matches == null)
+                        return "failed";
+                    var result = "";
+
+                    result += "DECLARE " + matches["groups"].declarations;
+                    result += "\n";
+                    result += "\n";
+
+                    result += matches["groups"].setters.split(",").map(x => "SET " + x).join("\n");
+
+                    result += "\n";
+                    result += "\n";
+                    result += matches["groups"]["statement"];
+
+                    return result;
+                }
+            },
+            data() {
+                return {
+                    inputValue: "",
+                }
+            },
+            render: function (h) {
+                const self = this;
+                return h("div", [
+                    h("textarea",
+                        {
+                            domProps: {
+                                value: self.inputValue,
+                                placeholder: "exec sp_executesql ...",
+                            },
+                            on: {
+                                input: function (event) {
+                                    self.inputValue = event.target.value;
+                                }
+                            }
+                        }
+                    ),
+                    h("br"),
+                    h("textarea",
+                        {
+                            attrs: {
+                                readonly: true,
+                            },
+                            domProps: {
+                                value: self.outputValue,
+                            }
+                        }
+                    )
+
+                ])
+            }
+
+        };
+
+        var app = new Vue(component).$mount('#app');
+    </script>
+</body>
+
+</html>
