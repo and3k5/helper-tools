@@ -22,7 +22,7 @@
             ]  
 
         */
-        const regex = /^\s*(exec )?sp_executesql (N)?'(?<statement>[^]*)',(N)?'(?<declarations>.*)',(?<setters>.*)$/i;
+        const regex = /^\s*(exec )?sp_executesql (N)?'(?<statement>[^]*)',(N)?'(?<declarations>[^']*)',(?<setters>.*)$/i;
         var component = {
             computed: {
                 outputValue() {
@@ -40,7 +40,7 @@
 
                     result += "\n";
                     result += "\n";
-                    result += matches["groups"]["statement"];
+                    result += matches["groups"]["statement"].replace(/''/gi,"'");
 
                     return result;
                 }
