@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Angle to coordinate converter</title>
+    <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+</head>
+
+<body translate="no">
+    <div id="app"></div>
+
+    <script>
+        var component = {
+            methods: {
+                calculateAngle() {
+                    var x1 = this.pos1.x;
+                    var y1 = this.pos1.y;
+                    var x2 = this.pos2.x;
+                    var y2 = this.pos2.y;
+                    
+                    var deltaX = x2 - x1;
+                    var deltaY = y2 - y1;
+                    var rad = Math.atan2(deltaY, deltaX); // In radians
+                    this.angleRad = rad;
+
+                    var a = x1 - x2;
+                    var b = y1 - y2;
+
+                    var c = Math.sqrt( a*a + b*b );
+                    this.distance = c;
+                }
+            },
+            data() {
+                return {
+                    angleRad: 0,
+                    distance: 0,
+                    pos1: {
+                        x: 0,
+                        y: 0,
+                    },
+                    pos2: {
+                        x: 0,
+                        y: 0,
+                    }
+                }
+            },
+            render: function (h) {
+                const self = this;
+                return h("div", [
+                    h("div", [
+                        h("strong", ["pos1"]),
+                        h("div", [
+                            h("label", [
+                                "x: ",
+                                h("input",
+                                    {
+                                        domProps: {
+                                            type: "number",
+                                            value: self.pos1.x,
+                                        },
+                                        on: {
+                                            input: function (event) {
+                                                self.pos1.x = event.target.valueAsNumber;
+                                                self.calculateAngle();
+                                            }
+                                        }
+                                    }
+                                ),
+                            ])
+                        ]),
+                        h("div", [
+                            h("label", [
+                                "y: ",
+                                h("input",
+                                    {
+                                        domProps: {
+                                            type: "number",
+                                            value: self.pos1.y,
+                                        },
+                                        on: {
+                                            input: function (event) {
+                                                self.pos1.y = event.target.valueAsNumber;
+                                                self.calculateAngle();
+                                            }
+                                        }
+                                    }
+                                ),
+                            ])
+                        ])
+                    ]),
+                    h("div", [
+                        h("strong", ["pos2"]),
+                        h("div", [
+                            h("label", [
+                                "x: ",
+                                h("input",
+                                    {
+                                        domProps: {
+                                            type: "number",
+                                            value: self.pos2.x,
+                                        },
+                                        on: {
+                                            input: function (event) {
+                                                self.pos2.x = event.target.valueAsNumber;
+                                                self.calculateAngle();
+                                            }
+                                        }
+                                    }
+                                ),
+                            ])
+                        ]),
+                        h("div", [
+                            h("label", [
+                                "y: ",
+                                h("input",
+                                    {
+                                        domProps: {
+                                            type: "number",
+                                            value: self.pos2.y,
+                                        },
+                                        on: {
+                                            input: function (event) {
+                                                self.pos2.y = event.target.valueAsNumber;
+                                                self.calculateAngle();
+                                            }
+                                        }
+                                    }
+                                ),
+                            ])
+                        ])
+                    ])
+                    ,
+                    h("div", [
+                        h("strong", ["angle"]),
+                        h("div", [
+                            h("label", [
+                                "distance: ",
+                                h("input",
+                                    {
+                                        domProps: {
+                                            type: "number",
+                                            value: self.distance,
+                                        },
+                                        on: {
+                                            input: function (event) {
+                                                self.distance = event.target.valueAsNumber;
+                                            }
+                                        }
+                                    }
+                                ),
+                            ])
+                        ]),
+                        h("div", [
+                            h("label", [
+                                "rad: ",
+                                h("input",
+                                    {
+                                        domProps: {
+                                            type: "number",
+                                            value: self.angleRad,
+                                        },
+                                        on: {
+                                            input: function (event) {
+                                                self.pos2.x = event.target.valueAsNumber;
+                                            }
+                                        }
+                                    }
+                                ),
+                            ])
+                        ]),
+                        h("div", [
+                            h("label", [
+                                "deg: ",
+                                h("input",
+                                    {
+                                        domProps: {
+                                            type: "number",
+                                            value: self.angleRad * (180 / Math.PI),
+                                        },
+                                        on: {
+                                            input: function (event) {
+                                                self.pos2.y = event.target.valueAsNumber;
+                                            }
+                                        }
+                                    }
+                                ),
+                            ])
+                        ])
+                    ]),
+                ])
+            }
+
+        };
+
+        var app = new Vue(component).$mount('#app');
+    </script>
+</body>
+
+</html>
