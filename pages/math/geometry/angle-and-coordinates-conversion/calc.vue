@@ -38,6 +38,15 @@
     </div>
 </template>
 
+<style scoped>
+input {
+    border: 1px solid black;
+    padding: 5px;
+    background: rgba(128,128,128,0.5);
+    border-radius: 5px;
+}
+</style>
+
 <script setup lang="ts">
 import { ref, watch } from "vue";
 
