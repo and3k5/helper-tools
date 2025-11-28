@@ -1,0 +1,23 @@
+{
+    "name": "helper-tools",
+    "version": "0.0.0",
+    "description": "Helper tools",
+    "scripts": {
+        "dev": "vitepress dev",
+        "build": "vitepress build",
+        "preview": "vitepress preview"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.39.1",
+        "eslint": "^9.39.1",
+        "prettier": "^3.6.2",
+        "vitepress": "^2.0.0-alpha.12"
+    },
+    "engines": {
+        "node": ">=24.11.0"
+    },
+    "engineStrict": true,
+    "volta": {
+        "node": "24.11.0"
+    }
+}
